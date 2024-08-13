@@ -39,6 +39,13 @@ public class PedidoRepository : IPedidoRepository
         return await _collection.Find(p => p.Id == id).FirstOrDefaultAsync();
     }
 
+    public async Task<IList<ItemPedido>> GetItensDoPedidoAsync(string pedidoId)
+    {
+        var pedido = await _collection.Find(p => p.Id == pedidoId).FirstOrDefaultAsync();
+        return pedido.Itens;
+    }
+
+
     public async Task<PagedResult<Pedido>> GetAllAsync(int pageNumber, int pageSize)
     {
         var totalCount = await _collection.CountDocumentsAsync(p => true);
@@ -126,14 +133,14 @@ public class PedidoRepository : IPedidoRepository
         await _collection.UpdateOneAsync(filter, update);
     }
 
-    public async Task AdicionarItemNaColetaAsync(string pedidoId, string coletaId, string itemId)
+    public async Task AdicionarItemNaColetaAsync(string pedidoId, string coletaId, ItemPedido item)
     {
         var filter = Builders<Pedido>.Filter.And(
             Builders<Pedido>.Filter.Eq(p => p.Id, pedidoId),
             Builders<Pedido>.Filter.ElemMatch(p => p.Coletas, c => c.Id == coletaId)
         );
 
-          var update = Builders<Pedido>.Update.Push("Coletas.$.Itens", itemId);
+          var update = Builders<Pedido>.Update.Push("Coletas.$.Itens", item);
 
         await _collection.UpdateOneAsync(filter, update);
     }
@@ -145,7 +152,8 @@ public class PedidoRepository : IPedidoRepository
             Builders<Pedido>.Filter.ElemMatch(p => p.Coletas, c => c.Id == coletaId)
         );
 
-        var update = Builders<Pedido>.Update.Pull("Coletas.$.Itens", itemId);
+        var update = Builders<Pedido>.Update.PullFilter("Coletas.$.Itens", 
+            Builders<ItemPedido>.Filter.Eq(i => i.Id, itemId));
 
         await _collection.UpdateOneAsync(filter, update);
     }

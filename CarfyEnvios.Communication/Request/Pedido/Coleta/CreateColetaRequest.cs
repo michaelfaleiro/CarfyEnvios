@@ -11,7 +11,7 @@ public class CreateColetaRequest
     public string MedidasEmbalagem { get; set; } = string.Empty;
     public string PesoEmbalagem { get; set; } = string.Empty;
     public string CodigoRastreio { get; set; } = string.Empty;
-    public DateTime DataEnvio { get; set; }
+    public DateTime? DataEnvio { get; set; } = null;
     public DateTime? DataPrevisaoEntrega { get; set; } = null;
     public DateTime? DataEntregaFinalizada { get; set; } = null;
 }

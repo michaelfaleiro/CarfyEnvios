@@ -12,6 +12,13 @@ public class CreateColetaUseCase(IPedidoRepository pedidoRepository)
         if (pedido is null)
             throw new NotFoundException("Pedido não encontrado");
 
+        request.DataEnvio = string.IsNullOrEmpty(request.DataEnvio?.ToString())
+            ? null : request.DataEnvio;
+        request.DataPrevisaoEntrega = string.IsNullOrEmpty(request.DataPrevisaoEntrega?.ToString())
+            ? null : request.DataPrevisaoEntrega;
+        request.DataEntregaFinalizada = string.IsNullOrEmpty(request.DataEntregaFinalizada?.ToString())
+            ? null : request.DataEntregaFinalizada;
+
         var coleta = new Core.Entidades.Coleta
         {
             PontoDeColeta = request.PontoDeColeta,
@@ -24,10 +31,9 @@ public class CreateColetaUseCase(IPedidoRepository pedidoRepository)
             MedidasEmbalagem = request.MedidasEmbalagem,
             PesoEmbalagem = request.PesoEmbalagem,
             CodigoRastreio = request.CodigoRastreio,
-            DataEnvio = request.DataEnvio,
+            DataEnvio = request.DataEnvio ?? null,
             DataPrevisaoEntrega = request.DataPrevisaoEntrega ?? null,
             DataEntregaFinalizada = request.DataEntregaFinalizada ?? null
-
         };
 
         await pedidoRepository.AdicionarColetaAsync(pedidoId, coleta);

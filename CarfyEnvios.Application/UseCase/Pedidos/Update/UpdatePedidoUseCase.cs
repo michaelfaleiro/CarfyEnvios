@@ -19,6 +19,13 @@ public class UpdatePedidoUseCase(IPedidoRepository pedidoRepository)
         pedido.Cliente.Nome = request.Nome;
         pedido.Cliente.Email = request.Email;
         pedido.Cliente.Telefone = request.Telefone;
+        pedido.LinkNfe = request.LinkNfe;
+        pedido.NumeroNfe = request.NumeroNfe;
+        pedido.NumeroPedido = request.NumeroPedido;
+        pedido.DataEmissaoNfe = request.DataEmissaoNfe;
+        pedido.Observacao = request.Observacao;
+        pedido.DataPedido = request.DataPedido;
+        pedido.Status = request.Status;
         pedido.UpdatedAt = DateTime.UtcNow;
     
         var result = await pedidoRepository.UpdateAsync(pedido);
@@ -28,6 +35,13 @@ public class UpdatePedidoUseCase(IPedidoRepository pedidoRepository)
             Data = new ResponsePedidoJson
             {
                 Id = result.Id,
+                NumeroPedido = result.NumeroPedido,
+                DataPedido = result.DataPedido,
+                NumeroNfe = result.NumeroNfe,
+                LinkNfe = result.LinkNfe,
+                DataEmissaoNfe = result.DataEmissaoNfe,
+                Observacao = result.Observacao,
+                Status = result.Status,
                 Cliente = new ResponseClienteJson
                 {
                     Nome = result.Cliente.Nome,

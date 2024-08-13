@@ -1,4 +1,5 @@
 ﻿using CarfyEnvios.Communication.Request.Pedido.Coleta;
+using CarfyEnvios.Core.Entidades;
 using CarfyEnvios.Core.Interfaces;
 using CarfyEnvios.Exceptions.ExceptionBase;
 
@@ -17,10 +18,20 @@ public class AdicionarItemNaColetaUseCase(IPedidoRepository pedidoRepository)
         if (coleta is null)
             throw new NotFoundException("Coleta não encontrada");
 
-        if (pedido.Coletas.Any(c => c.Itens.Contains(request.ItemId)))
+        if (pedido.Coletas.Any(c => c.Itens.Any(i => i.Id == request.Id)))
             throw new BusinessException("Item já existe em outra coleta");
 
-        await pedidoRepository.AdicionarItemNaColetaAsync(pedido.Id, coleta.Id, request.ItemId);
+        var item = new ItemPedido
+        {
+            Id = request.Id,
+            Nome = request.Nome,
+            Sku = request.Sku,
+            Fabricante = request.Fabricante,
+            Quantidade = request.Quantidade,
+            ValorUnitario = request.ValorUnitario
+        };
+
+        await pedidoRepository.AdicionarItemNaColetaAsync(pedido.Id, coleta.Id, item);
     }
 
 }

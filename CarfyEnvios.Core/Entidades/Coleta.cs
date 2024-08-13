@@ -15,8 +15,8 @@ public class Coleta : BaseEntity
     public string MedidasEmbalagem { get; set; } = string.Empty;
     public string PesoEmbalagem { get; set; } = string.Empty;
     public string CodigoRastreio { get; set; } = string.Empty;
-    public DateTime DataEnvio { get; set; }
+    public DateTime? DataEnvio { get; set; }
     public DateTime? DataPrevisaoEntrega { get; set; }
     public DateTime? DataEntregaFinalizada { get; set; }
-    public IList<string> Itens { get; set; } = [];
+    public IList<ItemPedido> Itens { get; set; } = [];
 }

@@ -1,10 +1,12 @@
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.AdicionarItemColeta;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.Create;
+using CarfyEnvios.Application.UseCase.Pedidos.Coleta.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.RemoverItemColeta;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.Update;
 using CarfyEnvios.Application.UseCase.Pedidos.Create;
 using CarfyEnvios.Application.UseCase.Pedidos.Delete;
 using CarfyEnvios.Application.UseCase.Pedidos.GetAll;
+using CarfyEnvios.Application.UseCase.Pedidos.GetAllItens;
 using CarfyEnvios.Application.UseCase.Pedidos.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.AdicionarItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.DeleteItem;
@@ -21,12 +23,14 @@ public static class PedidoService
         services.AddSingleton<CreatePedidoUseCase>();
         services.AddSingleton<GetByIdPedidoUseCase>();
         services.AddSingleton<GetAllPedidosUseCase>();
+        services.AddSingleton<GetAllItensPedidoByIdUseCase>();
         services.AddSingleton<UpdatePedidoUseCase>();
         services.AddSingleton<DeletePedidoUseCase>();
         services.AddSingleton<AdicionarItemPedidoUseCase>();
         services.AddSingleton<UpdateItemPedidoUseCase>();
         services.AddSingleton<DeleteItemPedidoUseCase>();
         services.AddSingleton<CreateColetaUseCase>();
+        services.AddSingleton<GetColetaByIdUseCase>();
         services.AddSingleton<UpdateColetaItemUseCase>();
         services.AddSingleton<AdicionarItemNaColetaUseCase>();
         services.AddSingleton<RemoverItemDaColetaUseCase>();

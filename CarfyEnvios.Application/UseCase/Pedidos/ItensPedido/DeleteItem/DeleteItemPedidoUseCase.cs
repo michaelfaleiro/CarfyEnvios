@@ -17,9 +17,15 @@ public class DeleteItemPedidoUseCase(IPedidoRepository pedidoRepository)
         if (itemPedido == null)
             throw new NotFoundException("Item não encontrado");
 
+        var itemColeta = pedido.Coletas.Any(c => c.Itens.Any(i => i.Id == itemId));
+
+        if (itemColeta)
+            throw new BusinessException("Remova o item da coleta antes de excluir");
+        
+
         pedido.Itens.Remove(itemPedido);
 
         await pedidoRepository.UpdateAsync(pedido);
     }
-    
+
 }

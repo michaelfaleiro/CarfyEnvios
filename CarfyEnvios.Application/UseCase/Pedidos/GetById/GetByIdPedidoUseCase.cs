@@ -1,6 +1,6 @@
 using CarfyEnvios.Communication.Response;
 using CarfyEnvios.Communication.Response.Cliente;
-using CarfyEnvios.Communication.Response.Envio;
+using CarfyEnvios.Communication.Response.Coleta;
 using CarfyEnvios.Communication.Response.ItemPedido;
 using CarfyEnvios.Communication.Response.Pedido;
 using CarfyEnvios.Core.Interfaces;
@@ -39,7 +39,7 @@ public class GetByIdPedidoUseCase(IPedidoRepository pedidoRepository)
                     Fabricante = item.Fabricante,
                     Quantidade = item.Quantidade,
                     ValorUnitario = item.ValorUnitario,
-                    
+
                 }).ToList(),
                 Coletas = pedido.Coletas.Select(coleta => new ResponseColetaJson
                 {
@@ -57,10 +57,16 @@ public class GetByIdPedidoUseCase(IPedidoRepository pedidoRepository)
                     StatusColeta = coleta.StatusColeta,
                     TipoTransporte = coleta.TipoTransporte,
                     Transportadora = coleta.Transportadora,
-                    Itens = coleta.Itens
-
+                    Itens = coleta.Itens.Select(item => new ResponseItemPedidoJson
+                    {
+                        Id = item.Id,
+                        Nome = item.Nome,
+                        Sku = item.Sku,
+                        Fabricante = item.Fabricante,
+                        Quantidade = item.Quantidade,
+                        ValorUnitario = item.ValorUnitario
+                    }).ToList()
                 }).ToList(),
-               
                 NumeroPedido = pedido.NumeroPedido,
                 DataPedido = pedido.DataPedido,
                 NumeroNfe = pedido.NumeroNfe,

@@ -1,4 +1,6 @@
-﻿namespace CarfyEnvios.Communication.Response.Coleta;
+﻿using CarfyEnvios.Communication.Response.ItemPedido;
+
+namespace CarfyEnvios.Communication.Response.Coleta;
 public class ResponseColetaJson
 {
     public string Id { get; set; } = string.Empty;
@@ -12,8 +14,8 @@ public class ResponseColetaJson
     public string MedidasEmbalagem { get; set; } = string.Empty;
     public string PesoEmbalagem { get; set; } = string.Empty;
     public string CodigoRastreio { get; set; } = string.Empty;
-    public DateTime DataEnvio { get; set; }
+    public DateTime? DataEnvio { get; set; }
     public DateTime? DataPrevisaoEntrega { get; set; }
     public DateTime? DataEntregaFinalizada { get; set; }
-    public IList<string> Itens { get; set; } = [];
+    public IList<ResponseItemPedidoJson> Itens { get; set; } = [];
 }

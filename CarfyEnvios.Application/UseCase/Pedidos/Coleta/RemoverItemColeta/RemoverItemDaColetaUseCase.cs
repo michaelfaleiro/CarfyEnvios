@@ -16,7 +16,7 @@ public class RemoverItemDaColetaUseCase(IPedidoRepository pedidoRepository)
         if (item == null)
             throw new NotFoundException("Coleta não encontrada");
 
-        if (!item.Itens.Any(i => i == itemId))
+        if (!item.Itens.Any(i => i.Id == itemId))
             throw new NotFoundException("Item não encontrado na coleta");
 
         await pedidoRepository.RemoverItemDaColetaAsync(pedidoId, coletaId, itemId);

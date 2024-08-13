@@ -1,10 +1,12 @@
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.AdicionarItemColeta;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.Create;
+using CarfyEnvios.Application.UseCase.Pedidos.Coleta.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.RemoverItemColeta;
 using CarfyEnvios.Application.UseCase.Pedidos.Coleta.Update;
 using CarfyEnvios.Application.UseCase.Pedidos.Create;
 using CarfyEnvios.Application.UseCase.Pedidos.Delete;
 using CarfyEnvios.Application.UseCase.Pedidos.GetAll;
+using CarfyEnvios.Application.UseCase.Pedidos.GetAllItens;
 using CarfyEnvios.Application.UseCase.Pedidos.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.AdicionarItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.DeleteItem;
@@ -14,6 +16,8 @@ using CarfyEnvios.Communication;
 using CarfyEnvios.Communication.Request.Pedido;
 using CarfyEnvios.Communication.Request.Pedido.Coleta;
 using CarfyEnvios.Communication.Response;
+using CarfyEnvios.Communication.Response.Coleta;
+using CarfyEnvios.Communication.Response.ItemPedido;
 using CarfyEnvios.Communication.Response.Pedido;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +61,19 @@ public class PedidosController : ControllerBase
         var pedido = await useCase.ExecuteAsync(id);
 
         return Ok(pedido);
+    }
+    
+    [HttpGet("{id:length(24)}/itens")]
+    [ProducesResponseType(typeof(PagedResponse<ResponseItemPedidoJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllItensAsync(
+        [FromRoute] string id,
+        [FromServices] GetAllItensPedidoByIdUseCase useCase
+        )
+    {
+        var itens = await useCase.ExecuteAsync(id);
+
+        return Ok(itens);
     }
 
     [HttpPut("{id:length(24)}")]
@@ -131,7 +148,7 @@ public class PedidosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> AdicionarColetaItemAsync(
+    public async Task<IActionResult> AdicionarColetaPedidoAsync(
         [FromRoute] string id,
         [FromBody] CreateColetaRequest request,
         [FromServices] CreateColetaUseCase useCase)
@@ -141,11 +158,24 @@ public class PedidosController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("{id:length(24)}/coleta/{coletaId:length(24)}")]
+    [ProducesResponseType(typeof(Response<ResponseColetaJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetColetaPedidoAsync(
+        [FromRoute] string id,
+        [FromRoute] string coletaId,
+        [FromServices] GetColetaByIdUseCase useCase)
+    {
+        var coleta = await useCase.ExecuteAsync(id, coletaId);
+
+        return Ok(coleta);
+    }
+
     [HttpPut("{id:length(24)}/coleta/{coletaId:length(24)}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateColetaItemAsync(
+    public async Task<IActionResult> UpdateColetaPedidoAsync(
         [FromRoute] string id,
         [FromRoute] string coletaId,
         [FromBody] UpdateColetaRequest request,

@@ -1,5 +1,3 @@
-using CarfyEnvios.Communication.Response.Envio;
-
 namespace CarfyEnvios.Communication.Response.ItemPedido;
 
 public class ResponseItemPedidoJson
