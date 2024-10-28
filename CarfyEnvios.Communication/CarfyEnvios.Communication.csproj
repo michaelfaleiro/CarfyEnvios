@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CarfyEnvios.Core\CarfyEnvios.Core.csproj" />
+    </ItemGroup>
+
 </Project>

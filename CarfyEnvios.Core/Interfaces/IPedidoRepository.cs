@@ -19,6 +19,5 @@ public interface IPedidoRepository
     Task RemoverColetaAsync(string pedidoId, string coletaId);
     Task AdicionarItemNaColetaAsync(string pedidoId, string coletaId, ItemPedido item);
     Task RemoverItemDaColetaAsync(string pedidoId, string coletaId, string itemId);
-
-    
+   
 }

@@ -11,14 +11,17 @@ using CarfyEnvios.Application.UseCase.Pedidos.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.AdicionarItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.DeleteItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.UpdateItem;
+using CarfyEnvios.Application.UseCase.Pedidos.Rastreio;
 using CarfyEnvios.Application.UseCase.Pedidos.Update;
 using CarfyEnvios.Communication;
 using CarfyEnvios.Communication.Request.Pedido;
 using CarfyEnvios.Communication.Request.Pedido.Coleta;
+using CarfyEnvios.Communication.Request.Pedido.Rastreio;
 using CarfyEnvios.Communication.Response;
 using CarfyEnvios.Communication.Response.Coleta;
 using CarfyEnvios.Communication.Response.ItemPedido;
 using CarfyEnvios.Communication.Response.Pedido;
+using CarfyEnvios.Communication.Response.Rastreio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarfyEnvios.Api.Controllers;
@@ -213,6 +216,18 @@ public class PedidosController : ControllerBase
         await useCase.ExecuteAsync(id, coletaId, itemId);
 
         return NoContent();
+    }
+
+    [HttpPost("rastreio")]
+    [ProducesResponseType(typeof(Response<TrackingResponseJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetRastreioAsync(
+        [FromBody] RastreioRequest request,
+        [FromServices] RastreioFrenetUseCase useCase)
+    {
+        var rastreio = await useCase.GetTrackingInfoAsync(request);
+
+        return Ok(rastreio);
     }
     
 }

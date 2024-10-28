@@ -1,6 +1,7 @@
 using CarfyEnvios.Api.Filters;
 using CarfyEnvios.Application.Services;
 using CarfyEnvios.Core.Interfaces;
+using CarfyEnvios.Infra.ApiFrenet;
 using CarfyEnvios.Infra.Data;
 using CarfyEnvios.Infra.Repositories;
 
@@ -17,6 +18,8 @@ builder.Services.PedidoUseCase();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDB"));
 builder.Services.AddSingleton<IPedidoRepository, PedidoRepository>();
+builder.Services.AddSingleton<IRastreioRepository, FrenetApiClient>();
+
 
 builder.Services.AddMvc(config => config.Filters.Add(typeof(ExceptionFilter)));
 

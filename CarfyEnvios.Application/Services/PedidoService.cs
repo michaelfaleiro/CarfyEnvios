@@ -11,6 +11,7 @@ using CarfyEnvios.Application.UseCase.Pedidos.GetById;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.AdicionarItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.DeleteItem;
 using CarfyEnvios.Application.UseCase.Pedidos.ItensPedido.UpdateItem;
+using CarfyEnvios.Application.UseCase.Pedidos.Rastreio;
 using CarfyEnvios.Application.UseCase.Pedidos.Update;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,6 +35,7 @@ public static class PedidoService
         services.AddSingleton<UpdateColetaItemUseCase>();
         services.AddSingleton<AdicionarItemNaColetaUseCase>();
         services.AddSingleton<RemoverItemDaColetaUseCase>();
+        services.AddSingleton<RastreioFrenetUseCase>();
 
         return services;
 

@@ -22,6 +22,7 @@ public class ExceptionFilter : IExceptionFilter
         else
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            Console.WriteLine(context.Exception.Message);
 
             var list = new List<string> { "Erro interno no servidor"};
 
